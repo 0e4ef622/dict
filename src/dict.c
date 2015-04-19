@@ -6,7 +6,7 @@
 dict *dict_new(int size) {
     dict *newdict = (dict *) malloc(sizeof(dict));
 
-    int bucketsize = sizeof(dict_ent *) * size * 1.2;
+    int bucketsize = sizeof(dict_ent *) * (size / .75);
     newdict->bucket = (dict_ent **) malloc(bucketsize);
     memset(newdict->bucket, 0, bucketsize);
 
@@ -24,6 +24,7 @@ int dict_add(dict *it, char *key, void *data) {
     entry->data = data;
 
     unsigned int index = hash(key) % it->size;
+    while (it->bucket[index] != NULL) index++;
     it->bucket[index] = entry;
     it->used++;
 
@@ -48,6 +49,7 @@ void *dict_get(dict *it, char *key) {
     if (entry == NULL) return NULL;
 
     while (strcmp(entry->key, key) != 0) {
+        printf("COLLISION :P\n");
         entry = it->bucket[++index];
     }
     
