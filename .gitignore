@@ -1,0 +1,4 @@
+dict.a
+test/*
+.depend
+src/*.o
