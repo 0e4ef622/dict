@@ -34,10 +34,15 @@ int dict_add(dict *it, char *key, void *data) {
 int dict_reassign(dict *it, char *key, void *data) {
     unsigned int index = hash(key) % it->size;
     dict_ent *entry = it->bucket[index];
-
     if (entry == NULL)
         return dict_add(it, key, data);
 
+    while (strcmp(it->bucket[index]->key, key) != 0) {
+        if (it->bucket[index] == NULL) return dict_add(it, key, data);
+        index++;
+    }
+
+    entry = it->bucket[index];
     entry->data = data;
     return 0;
 }
