@@ -54,7 +54,6 @@ void *dict_get(dict *it, char *key) {
     if (entry == NULL) return NULL;
 
     while (strcmp(entry->key, key) != 0) {
-        printf("COLLISION :P\n");
         entry = it->bucket[++index];
     }
     
